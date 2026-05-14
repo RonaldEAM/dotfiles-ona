@@ -6,6 +6,12 @@ ZSHRC="$HOME/.zshrc"
 
 echo "==> Setting up dotfiles..."
 
+# --- Default shell ---
+if [ "$SHELL" != "/usr/bin/zsh" ]; then
+  echo "==> Changing default shell to zsh..."
+  sudo chsh "$(id -un)" --shell "/usr/bin/zsh"
+fi
+
 append_once() {
   local line="$1"
   grep -qF "$line" "$ZSHRC" 2>/dev/null || echo "$line" >> "$ZSHRC"
