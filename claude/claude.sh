@@ -8,6 +8,10 @@ fi
 
 echo "==> Setting up Claude Code plugins..."
 
+# Refresh marketplace indexes so plugins are discoverable on fresh machines
+echo "==> Updating marketplace indexes..."
+claude plugin marketplace update claude-plugins-official
+
 # superpowers
 if claude plugin list 2>/dev/null | grep -q "superpowers@claude-plugins-official"; then
   echo "==> superpowers already installed, skipping"
@@ -20,6 +24,8 @@ fi
 if ! claude plugin marketplace list 2>/dev/null | grep -q "JuliusBrussee/caveman"; then
   echo "==> Registering caveman marketplace..."
   claude plugin marketplace add JuliusBrussee/caveman
+else
+  claude plugin marketplace update caveman
 fi
 
 if claude plugin list 2>/dev/null | grep -q "caveman@caveman"; then
