@@ -17,8 +17,12 @@ append_once() {
   grep -qF "$line" "$ZSHRC" 2>/dev/null || echo "$line" >> "$ZSHRC"
 }
 
-# --- Git aliases ---
+# --- Terminal fixes (TERM, keybindings) ---
 mkdir -p ~/.shell
+cp "$DOTFILES_DIR/shell/terminal.sh" ~/.shell/terminal.sh
+append_once 'source ~/.shell/terminal.sh'
+
+# --- Git aliases ---
 cp "$DOTFILES_DIR/shell/git.sh" ~/.shell/git.sh
 append_once 'source ~/.shell/git.sh'
 
