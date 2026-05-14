@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if ! command -v claude &>/dev/null; then
+  echo "==> claude not found, skipping plugin setup"
+  exit 0
+fi
+
 echo "==> Setting up Claude Code plugins..."
 
 # superpowers
-if claude plugin list 2>/dev/null | grep -q "superpowers@"; then
+if claude plugin list 2>/dev/null | grep -q "superpowers@claude-plugins-official"; then
   echo "==> superpowers already installed, skipping"
 else
   echo "==> Installing superpowers..."
@@ -12,7 +17,7 @@ else
 fi
 
 # caveman
-if ! claude plugin marketplace list 2>/dev/null | grep -q "^\s*❯ caveman"; then
+if ! claude plugin marketplace list 2>/dev/null | grep -q "JuliusBrussee/caveman"; then
   echo "==> Registering caveman marketplace..."
   claude plugin marketplace add JuliusBrussee/caveman
 fi
@@ -25,14 +30,18 @@ else
 fi
 
 # humanizer skill
-HUMANIZER_DIR="${HOME}/.claude/skills/humanizer"
-if [ -d "$HUMANIZER_DIR" ]; then
-  echo "==> Updating humanizer skill..."
-  git -C "$HUMANIZER_DIR" pull --ff-only
+if ! command -v git &>/dev/null; then
+  echo "==> git not found, skipping humanizer skill install"
 else
-  echo "==> Installing humanizer skill..."
-  mkdir -p "${HOME}/.claude/skills"
-  git clone https://github.com/blader/humanizer.git "$HUMANIZER_DIR"
+  HUMANIZER_DIR="${HOME}/.claude/skills/humanizer"
+  if [ -d "$HUMANIZER_DIR" ]; then
+    echo "==> Updating humanizer skill..."
+    git -C "$HUMANIZER_DIR" pull --ff-only
+  else
+    echo "==> Installing humanizer skill..."
+    mkdir -p "${HOME}/.claude/skills"
+    git clone https://github.com/blader/humanizer.git "$HUMANIZER_DIR"
+  fi
 fi
 
 echo "==> Done."
