@@ -27,4 +27,7 @@ fi
 # Use single quotes so XDG_DATA_HOME is evaluated at shell startup, not install time
 append_once 'source ${XDG_DATA_HOME:-$HOME/.local/share}/zsh-autosuggestions/zsh-autosuggestions.zsh'
 
+# --- Claude Code plugins ---
+bash "$DOTFILES_DIR/claude/claude.sh"
+
 echo "==> Done! Run: source ~/.zshrc"
