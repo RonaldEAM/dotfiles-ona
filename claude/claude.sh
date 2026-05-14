@@ -39,13 +39,6 @@ else
   claude plugin install caveman@caveman
 fi
 
-if claude plugin list 2>/dev/null | grep -q "caveman-commit@caveman"; then
-  echo "==> caveman-commit already installed, skipping"
-else
-  echo "==> Installing caveman-commit..."
-  claude plugin install caveman-commit@caveman
-fi
-
 # humanizer skill
 if ! command -v git &>/dev/null; then
   echo "==> git not found, skipping humanizer skill install"
