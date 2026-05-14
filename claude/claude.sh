@@ -24,4 +24,15 @@ else
   claude plugin install caveman@caveman
 fi
 
+# humanizer skill
+HUMANIZER_DIR="${HOME}/.claude/skills/humanizer"
+if [ -d "$HUMANIZER_DIR" ]; then
+  echo "==> Updating humanizer skill..."
+  git -C "$HUMANIZER_DIR" pull --ff-only
+else
+  echo "==> Installing humanizer skill..."
+  mkdir -p "${HOME}/.claude/skills"
+  git clone https://github.com/blader/humanizer.git "$HUMANIZER_DIR"
+fi
+
 echo "==> Done."
