@@ -18,10 +18,13 @@ append_once 'source ~/.shell/git.sh'
 
 # --- zsh-autosuggestions ---
 ZSH_AUTOSUGGEST_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh-autosuggestions"
-if [ ! -d "$ZSH_AUTOSUGGEST_DIR" ]; then
+if ! command -v git &>/dev/null; then
+  echo "==> git not found, skipping zsh-autosuggestions install"
+elif [ ! -d "$ZSH_AUTOSUGGEST_DIR" ]; then
   echo "==> Installing zsh-autosuggestions..."
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$ZSH_AUTOSUGGEST_DIR"
 fi
-append_once "source $ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
+# Use single quotes so XDG_DATA_HOME is evaluated at shell startup, not install time
+append_once 'source ${XDG_DATA_HOME:-$HOME/.local/share}/zsh-autosuggestions/zsh-autosuggestions.zsh'
 
 echo "==> Done! Run: source ~/.zshrc"
