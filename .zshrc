@@ -73,20 +73,7 @@ ZSH_THEME="devcontainers"
 plugins=(git zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting)
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 autoload -U compinit && compinit
-
-# SSH from Kitty: remote lacks xterm-kitty terminfo, causing garbled autosuggestions and broken keys
-if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && [[ "$TERM" == "xterm-kitty" ]]; then
-  export TERM="xterm-256color"
-fi
-
 source $ZSH/oh-my-zsh.sh
-
-# Delete / backspace key bindings for SSH (terminal type varies)
-if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
-  bindkey "^[[3~" delete-char
-  bindkey "^?" backward-delete-char
-  bindkey "^H"  backward-delete-char
-fi
 
 # User configuration
 source /etc/profile.d/ona-secrets.sh
